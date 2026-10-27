@@ -1,0 +1,27 @@
+# Verilator generated build files
+sim/obj_dir/
+obj_dir/
+
+# Waveforms and simulator-generated files
+*.vcd
+*.fst
+*.vpd
+*.wlf
+coverage.dat
+
+# Temporary files and backups
+*.bak
+*.swp
+*.tmp
+*~
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Generated simulation logs (retain final evidence)
+sim/*.log
+!sim/final_coverage_corrected.log
+
+# Keep the final verification summary
+!sim/verification_summary.txt

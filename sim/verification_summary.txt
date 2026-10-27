@@ -1,0 +1,11 @@
+4x4 INT8 SYSTOLIC ARRAY — FINAL UVM VERIFICATION
+================================================
+Transactions: 212 (12 directed + 200 pseudorandom)
+Scoreboard checks: 924
+Scoreboard mismatches: 0
+Functional coverage: 100.00% of defined bins
+Asynchronous reset: PASS
+Post-reset recovery: PASS
+UVM errors: 0
+UVM fatals: 0
+Verification status: PASS
