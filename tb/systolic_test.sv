@@ -37,6 +37,13 @@ class systolic_test extends uvm_test;
         random_seq = systolic_random_sequence::type_id::create("random_seq");
         random_seq.start(env.agent.sequencer);
       end
+      begin
+        systolic_boundary_sequence boundary_seq;
+        boundary_seq = systolic_boundary_sequence::type_id::create("boundary_seq");
+        `uvm_info("TEST", "Starting 32-cycle arithmetic-boundary verification", UVM_LOW)
+        boundary_seq.start(env.agent.sequencer);
+        `uvm_info("TEST", "Arithmetic-boundary sequence completed", UVM_LOW)
+      end
     end
     repeat (10) @(negedge vif.clk);
     phase.drop_objection(this);

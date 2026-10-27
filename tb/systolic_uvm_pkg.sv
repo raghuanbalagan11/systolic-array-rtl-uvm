@@ -11,5 +11,6 @@ package systolic_uvm_pkg;
   `include "systolic_env.sv"
   `include "systolic_basic_sequence.sv"
   `include "systolic_random_sequence.sv"
+  `include "systolic_boundary_sequence.sv"
   `include "systolic_test.sv"
 endpackage

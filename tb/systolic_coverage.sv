@@ -4,6 +4,8 @@ class systolic_coverage extends uvm_subscriber #(systolic_transaction);
   virtual systolic_if vif;
   int activation_value;
   int weight_value;
+  int pe_row;
+  int pe_col;
   bit weight_load;
   bit signed [7:0] loaded_weights[4][4];
 
@@ -26,6 +28,36 @@ class systolic_coverage extends uvm_subscriber #(systolic_transaction);
       bins disabled = {0};
       bins enabled = {1};
     }
+
+    activation_boundary_cp: coverpoint activation_value {
+      bins min_value = {-128};
+      bins negative_one = {-1};
+      bins zero_value = {0};
+      bins positive_one = {1};
+      bins max_value = {127};
+      bins other_negative = {[-127:-2]};
+      bins other_positive = {[2:126]};
+    }
+
+    weight_boundary_cp: coverpoint weight_value {
+      bins min_value = {-128};
+      bins negative_one = {-1};
+      bins zero_value = {0};
+      bins positive_one = {1};
+      bins max_value = {127};
+      bins other_negative = {[-127:-2]};
+      bins other_positive = {[2:126]};
+    }
+
+    pe_row_cp: coverpoint pe_row {
+      bins rows[] = {[0:3]};
+    }
+
+    pe_col_cp: coverpoint pe_col {
+      bins columns[] = {[0:3]};
+    }
+
+    pe_position_cross: cross pe_row_cp, pe_col_cp;
 
     sign_cross: cross activation_cp, weight_cp;
   endgroup
@@ -65,6 +97,8 @@ class systolic_coverage extends uvm_subscriber #(systolic_transaction);
       for (int c = 0; c < 4; c++) begin
         activation_value = int'(t.a_in[r]);
         weight_value = int'(loaded_weights[r][c]);
+        pe_row = r;
+        pe_col = c;
         systolic_cg.sample();
       end
     end
