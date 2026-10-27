@@ -61,7 +61,28 @@ class systolic_scoreboard extends uvm_scoreboard;
 
   endfunction
 
+  function void reset_model();
+    foreach (weights[r,c]) begin
+      weights[r][c] = '0;
+      activations[r][c] = '0;
+      sums[r][c] = '0;
+    end
+  endfunction
+
+  task monitor_async_reset();
+    forever begin
+      @(negedge vif.rst_n);
+      reset_model();
+      `uvm_info("SCOREBOARD_RESET",
+                "Reference model cleared on asynchronous reset",
+                UVM_LOW)
+    end
+  endtask
+
   task run_phase(uvm_phase phase);
+    fork
+      monitor_async_reset();
+    join_none
     forever begin
       @(posedge vif.clk);
       #1ps;
