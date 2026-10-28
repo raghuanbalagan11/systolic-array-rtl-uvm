@@ -23,26 +23,64 @@ pre {font-size:11px;background:#f5f7fa;padding:14px;white-space:pre-wrap;border-
 <div class="subtitle">SystemVerilog UVM | Final Verification Report</div>
 <div class="status">VERIFICATION STATUS: PASS</div>
 <h2>Regression Results</h2>
-<table><tr><td>Total transactions</td><td>212</td></tr><tr><td>Directed transactions</td><td>12</td></tr><tr><td>Pseudorandom transactions</td><td>200</td></tr><tr><td>Scoreboard checks</td><td>924</td></tr><tr><td>Scoreboard mismatches</td><td>0</td></tr><tr><td>Functional coverage (defined bins)</td><td>100.00%</td></tr><tr><td>Asynchronous reset</td><td>PASS</td></tr><tr><td>Post-reset recovery</td><td>PASS</td></tr><tr><td>UVM errors</td><td>0</td></tr><tr><td>UVM fatals</td><td>0</td></tr></table>
+<table>
+<tr><td>Total stimulus transactions</td><td>1,000</td></tr>
+<tr><td>Directed transactions</td><td>12</td></tr>
+<tr><td>Pseudorandom transactions</td><td>956</td></tr>
+<tr><td>Arithmetic-boundary transactions</td><td>32</td></tr>
+<tr><td>Scoreboard comparisons</td><td>36,684</td></tr>
+<tr><td>Scoreboard mismatches</td><td>0</td></tr>
+<tr><td>Transaction functional coverage</td><td>100.00%</td></tr>
+<tr><td>Internal PE activation coverage</td><td>100.00%</td></tr>
+<tr><td>Internal PE partial-sum coverage</td><td>100.00%</td></tr>
+<tr><td>Signed INT32 MAC overflow coverage</td><td>100.00%</td></tr>
+<tr><td>Sampled MAC operations</td><td>16,176</td></tr>
+<tr><td>MAC operations without overflow</td><td>16,070</td></tr>
+<tr><td>Positive overflow events</td><td>47</td></tr>
+<tr><td>Negative overflow events</td><td>59</td></tr>
+<tr><td>Asynchronous reset</td><td>PASS</td></tr>
+<tr><td>Post-reset recovery</td><td>PASS</td></tr>
+<tr><td>UVM warnings</td><td>2</td></tr>
+<tr><td>UVM errors</td><td>0</td></tr>
+<tr><td>UVM fatals</td><td>0</td></tr>
+<tr><td>Simulation exit code</td><td>0</td></tr>
+</table>
 <h2>Verification Methodology</h2>
-<p>Directed and pseudorandom stimulus, transaction-level scoreboard checking,
-functional coverage, asynchronous reset, and post-reset recovery verification.</p>
-<p class="note">Functional coverage represents 100% of the defined functional bins,
-not exhaustive input-space or code coverage. Results are transcribed from the
-project's final verification summary.</p>
-<h2>Original Verification Summary</h2>
-<pre>4x4 INT8 SYSTOLIC ARRAY — FINAL UVM VERIFICATION
-================================================
-Transactions: 212 (12 directed + 200 pseudorandom)
-Scoreboard checks: 924
-Scoreboard mismatches: 0
-Functional coverage: 100.00% of defined bins
-Asynchronous reset: PASS
-Post-reset recovery: PASS
+<p>Cycle-accurate UVM scoreboard checking of four array outputs,
+16 internal PE activation signals, and 16 internal PE partial sums.
+The regression includes directed, pseudorandom, and arithmetic-boundary
+stimulus, asynchronous reset verification, post-reset recovery,
+and pipeline draining.</p>
+
+<h2>Overflow Verification</h2>
+<p>Signed 64-bit reference arithmetic classifies each INT32 MAC operation
+as no overflow, positive overflow, or negative overflow.
+All three defined overflow categories were exercised.</p>
+
+<h2>Coverage Interpretation</h2>
+<p class="note">Reported 100% functional coverage applies only to the
+explicitly defined covergroup bins. It does not imply exhaustive
+input-space verification, complete code coverage, or formal proof.</p>
+
+<h2>Simulation Notes</h2>
+<p class="note">Simulator: Verilator 5.053.
+Regression seed: 1. Two UVM_NO_DPI-related warnings were reported.
+No scoreboard errors, UVM errors, or UVM fatals occurred.</p>
+
+<h2>Regression Evidence</h2>
+<pre>4x4 SIGNED INT8 SYSTOLIC ARRAY - UVM REGRESSION
+Transactions: 1000 (12 directed + 956 pseudorandom + 32 boundary)
+Scoreboard checks: 36684
+Scoreboard errors: 0
+Transaction coverage: 100.00%
+Internal PE activation coverage: 100.00%
+Internal PE partial-sum coverage: 100.00%
+Signed INT32 MAC overflow coverage: 100.00%
+Overflow counts: normal=16070, positive=47, negative=59
+UVM warnings: 2
 UVM errors: 0
 UVM fatals: 0
-Verification status: PASS
-</pre>
+Simulation exit code: 0</pre>
 </div>
 </body>
 </html>

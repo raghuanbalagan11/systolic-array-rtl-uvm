@@ -8,7 +8,7 @@ class systolic_random_sequence extends uvm_sequence #(systolic_transaction);
   task body();
     systolic_transaction tr;
 
-    for (int cycle = 0; cycle < 200; cycle++) begin
+    for (int cycle = 0; cycle < 956; cycle++) begin
       tr = systolic_transaction::type_id::create("tr");
       start_item(tr);
 
