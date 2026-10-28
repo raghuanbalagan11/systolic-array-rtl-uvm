@@ -86,6 +86,25 @@ class systolic_scoreboard extends uvm_scoreboard;
     forever begin
       @(posedge vif.clk);
       #1ps;
+      // Check registered activation and partial-sum outputs of every PE.
+      foreach (activations[r,c]) begin
+        checks++;
+        if (vif.pe_activation[r][c] !== activations[r][c]) begin
+          errors++;
+          `uvm_error("PE_ACTIVATION",
+            $sformatf("PE[%0d][%0d]: expected activation %0d, got %0d",
+                      r, c, activations[r][c], vif.pe_activation[r][c]))
+        end
+
+        checks++;
+        if (vif.pe_psum[r][c] !== sums[r][c]) begin
+          errors++;
+          `uvm_error("PE_PSUM",
+            $sformatf("PE[%0d][%0d]: expected partial sum %0d, got %0d",
+                      r, c, sums[r][c], vif.pe_psum[r][c]))
+        end
+      end
+
       foreach (vif.psum_out[c]) begin
         checks++;
         if (vif.psum_out[c] !== sums[3][c]) begin

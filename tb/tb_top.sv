@@ -20,6 +20,14 @@ module tb_top;
     .psum_out    (vif.psum_out)
   );
 
+  // Verification-only taps into registered PE outputs.
+  for (genvar r = 0; r < 4; r++) begin : OBS_ROW
+    for (genvar c = 0; c < 4; c++) begin : OBS_COL
+      assign vif.pe_activation[r][c] = dut.a_wire[r][c+1];
+      assign vif.pe_psum[r][c] = dut.psum_wire[r+1][c];
+    end
+  end
+
   initial begin
     vif.rst_n = 0;
     vif.load_weight = 0;
