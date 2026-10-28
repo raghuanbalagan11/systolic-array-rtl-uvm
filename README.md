@@ -28,20 +28,51 @@ Input scheduling and row skewing are managed externally.
 
 ## Verification Results
 
+The latest Verilator/UVM regression completed successfully using seed 1.
+
 | Metric | Result |
-|---|---|
+|---|---:|
 | Directed transactions | 12 |
-| Pseudorandom transactions | 200 |
-| Total transactions | 212 |
-| Scoreboard checks | 924 |
+| Pseudorandom transactions | 956 |
+| Arithmetic-boundary transactions | 32 |
+| Total stimulus transactions | 1,000 |
+| Scoreboard comparisons | 36,684 |
 | Scoreboard mismatches | 0 |
-| Functional coverage of defined bins | 100% |
+| Transaction functional coverage | 100.00% |
+| Internal PE activation coverage | 100.00% |
+| Internal PE partial-sum coverage | 100.00% |
+| Signed INT32 MAC overflow coverage | 100.00% |
+| Sampled MAC operations | 16,176 |
+| MAC operations without overflow | 16,070 |
+| Positive overflow events | 47 |
+| Negative overflow events | 59 |
 | Asynchronous reset | PASS |
 | Post-reset recovery | PASS |
+| UVM warnings | 2 |
 | UVM errors | 0 |
 | UVM fatals | 0 |
+| Simulation exit code | 0 |
 
-Functional coverage includes activation sign, weight sign, weight-load enable, and activation/weight sign cross coverage. The reported percentage does not represent exhaustive input-space or code coverage.
+### Verification Methodology
+
+- Directed, pseudorandom, and arithmetic-boundary stimulus
+- Cycle-accurate reference-model scoreboard
+- Checking of four array outputs and 16 internal PE activation and partial-sum signals
+- Functional coverage of activation, weight, weight-loading, and PE behavior
+- Signed INT32 MAC overflow classification using 64-bit reference arithmetic
+- Active-low asynchronous reset and post-reset recovery verification
+- Pipeline-drain testing
+
+The two UVM warnings relate to the `UVM_NO_DPI` configuration.
+They do not indicate detected RTL mismatches.
+
+**Coverage limitation:** The reported 100% values represent coverage
+of explicitly defined functional bins, not exhaustive verification,
+complete code coverage, or formal proof.
+
+### Verification Report
+
+[View the UVM Verification Report](UVM_Verification_Report.html)
 
 ## FPGA Synthesis, Implementation & Timing Closure
 
@@ -103,8 +134,8 @@ from the Verilator/UVM verification flow.
 - `tb/` — UVM verification components and testbench
 - `reports/` — Vivado synthesis, utilization, and timing reports
 - `constraints/` — FPGA timing and I/O constraints
-- `sim/verification_summary.txt` — Final verification summary
-- `sim/final_coverage_corrected.log` — Final regression log
+- `UVM_Verification_Report.html` — Updated UVM verification report
+- `tb/systolic_coverage.sv` — Functional and overflow coverage
 
 ## Verification Status
-PASS — 924 scoreboard checks, zero mismatches, and 100% coverage of defined functional bins.
+PASS — 1,000 stimulus transactions, 36,684 scoreboard comparisons, zero mismatches, and 100% coverage of defined functional bins.
